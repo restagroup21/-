@@ -372,7 +372,7 @@ button {
         </label>
       </div>
       <div style="color:#8b6914; font-size:0.8em; margin-top:6px;">
-        対象: フランスパン / ロールケーキ / ワッフル / シュークリーム / エクレア / 菓子パン / 食パン / ロールパン
+        対象: フランスパン / ロールケーキ / シュークリーム / エクレア / 菓子パン / 食パン / ロールパン
       </div>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -708,7 +708,7 @@ function getPeople(meal, isWE) {
 }
 
 // 日持ちが短い(途中買い足し対象)材料リスト
-const REFILL_TARGETS = ['フランスパン', 'ロールケーキ', 'ワッフル', 'シュークリーム', 'エクレア', '菓子パン', '食パン', 'ロールパン'];
+const REFILL_TARGETS = ['フランスパン', 'ロールケーキ', 'シュークリーム', 'エクレア', '菓子パン', '食パン', 'ロールパン'];
 function isPanIngredient(name) {
   return REFILL_TARGETS.some(target => name.includes(target));
 }
