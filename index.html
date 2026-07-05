@@ -576,6 +576,7 @@ function recognizeDailyReturn(items) {
   
   const headerYMax = mealY.朝食 || (items[0].pageHeight * 0.15);
   const dayX = {};
+  const dayWeekday = {};  // {day: '月'|'火'|...}
   items.forEach(it => {
     const t = it.str.trim();
     const m = t.match(/^(\d{1,2})(?:\s|$|[月火水木金土日])/);
@@ -583,7 +584,21 @@ function recognizeDailyReturn(items) {
       const d = parseInt(m[1], 10);
       if (d >= 1 && d <= 31) {
         if (!dayX[d] || it.x < dayX[d]) dayX[d] = it.x;
+        const wdMatch = t.match(/[月火水木金土日]/);
+        if (wdMatch) dayWeekday[d] = wdMatch[0];
       }
+    }
+  });
+  // 曜日が別アイテムの場合
+  items.forEach(it => {
+    const t = it.str.trim();
+    if (/^[月火水木金土日]$/.test(t) && it.y < headerYMax) {
+      let closest = null, minDist = 40;
+      Object.keys(dayX).forEach(d => {
+        const dist = Math.abs(dayX[d] - it.x);
+        if (dist < minDist) { minDist = dist; closest = d; }
+      });
+      if (closest && !dayWeekday[closest]) dayWeekday[closest] = t;
     }
   });
   const daysSorted = Object.keys(dayX).map(Number).sort((a,b) => a-b);
